@@ -1,6 +1,5 @@
 [project]
 name = "rq-rediscron"
-version = "0.1.2"
 description = "Redis-backed runtime-editable cron scheduler for RQ"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -10,22 +9,27 @@ dependencies = [
     "redis>=5",
     "rq>=2.8",
 ]
+dynamic = ["version"]
 
 [project.urls]
 Homepage = "https://github.com/gams/rq-rediscron"
 Repository = "https://github.com/gams/rq-rediscron"
 
 [build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.setuptools]
-include-package-data = false
+[tool.hatch.build.targets.wheel]
+packages = ["rediscron"]
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["rediscron*"]
-# this will keep those folders out of bdist but "tests" will be present in
-# sdist
+[tool.hatch.build.targets.sdist]
 exclude = ["docs*", "tests*", "foo_*"]
-namespaces = false
+
+[tool.hatch.version]
+path = "rediscron/__meta__.py"
+
+[dependency-groups]
+dev = [
+    "tox>=4.55.0",
+    "tox-uv>=1.35.2",
+]
