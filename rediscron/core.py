@@ -114,12 +114,13 @@ class RedisCronJob(CronJob):
     need to fetch, refresh, or delete one job.
 
     Example:
-        ```python
+
+    .. code-block:: python
+
         from redis import Redis
         from rediscron import RedisCronJob
 
         def rebuild_metric(metric_id: str) -> None:
-            ...
 
         redis = Redis.from_url("redis://localhost:6379/0")
         job = RedisCronJob(
@@ -134,7 +135,7 @@ class RedisCronJob(CronJob):
 
         same_job = RedisCronJob.fetch("metric:pm25", redis)
         same_job.delete()
-        ```
+
     """
 
     def __init__(
@@ -194,10 +195,11 @@ class RedisCronJob(CronJob):
         """Redis hash key for this cron job.
 
         Example:
-            ```python
+
+        .. code-block:: python
+
             job = RedisCronJob.fetch("metric:pm25", redis)
             assert job.key == "rq:cron_job:metric:pm25"
-            ```
         """
         return f"{CRON_JOB_KEY_PREFIX}{self.id}"
 
@@ -236,11 +238,12 @@ class RedisCronJob(CronJob):
         `rq:cron_jobs:events`.
 
         Example:
-            ```python
+
+        .. code-block:: python
+
             job = RedisCronJob.fetch("metric:pm25", redis)
             job.interval = 600
             job.save(event="updated")
-            ```
         """
         connection = pipeline or self.connection
         if connection is None:
@@ -272,11 +275,12 @@ class RedisCronJob(CronJob):
         """Reload this job from Redis in place.
 
         Example:
-            ```python
+
+        .. code-block:: python
+
             job = RedisCronJob.fetch("metric:pm25", redis)
             # Another process edits the job.
             job.refresh()
-            ```
         """
         if self.connection is None:
             raise ValueError("RedisCronJob.refresh() requires a Redis connection")
@@ -292,9 +296,10 @@ class RedisCronJob(CronJob):
         the update marker as the correctness fallback.
 
         Example:
-            ```python
+
+        .. code-block:: python
+
             RedisCronJob.fetch("metric:pm25", redis).delete()
-            ```
         """
         connection = pipeline or self.connection
         if connection is None:
@@ -334,10 +339,11 @@ class RedisCronJob(CronJob):
         """Fetch one persisted cron job by id.
 
         Example:
-            ```python
+
+        .. code-block:: python
+
             job = RedisCronJob.fetch("metric:pm25", redis)
             print(job.next_enqueue_time)
-            ```
         """
         logging.getLogger(__name__).debug("Fetching Redis cron job id=%s", id)
         raw_data = connection.hgetall(f"{CRON_JOB_KEY_PREFIX}{id}")
@@ -418,12 +424,13 @@ class RedisCronScheduler(CronScheduler):
     fails before the scheduler registers itself in RQ's registry.
 
     Example:
-        ```python
+
+    .. code-block:: python
+
         from redis import Redis
         from rediscron import RedisCronScheduler
 
         def rebuild_metric(metric_id: str) -> None:
-            ...
 
         redis = Redis.from_url("redis://localhost:6379/0")
         scheduler = RedisCronScheduler(redis, lock_ttl=120)
@@ -435,7 +442,6 @@ class RedisCronScheduler(CronScheduler):
             interval=300,
         )
         scheduler.start()
-        ```
     """
 
     def __init__(
@@ -475,12 +481,13 @@ class RedisCronScheduler(CronScheduler):
         persisted immediately and published to running schedulers.
 
         Example:
-            ```python
+
+        .. code-block:: python
+
             scheduler.register(rebuild_metric, "metrics", id="metric:pm25", interval=300)
 
             # Later, from another process:
             scheduler.register(rebuild_metric, "metrics", id="metric:pm25", interval=600)
-            ```
         """
         self.log.debug(
             "Register requested id=%s queue=%s func=%s interval=%s cron=%s args=%r kwargs=%r",

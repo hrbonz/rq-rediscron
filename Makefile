@@ -32,3 +32,7 @@ test: tox
 
 .PHONY: fulltest
 fulltest: tox unittest
+
+.PHONY: docs
+docs:
+	make -C docs/ -f Makefile html SPHINXBUILD='uv run sphinx-build'
