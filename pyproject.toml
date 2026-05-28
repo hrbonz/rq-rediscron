@@ -1,6 +1,6 @@
 [project]
 name = "rq-rediscron"
-version = "0.1.0"
+version = "0.1.1"
 description = "Redis-backed runtime-editable cron scheduler for RQ"
 readme = "README.md"
 requires-python = ">=3.9"
