@@ -1,0 +1,31 @@
+[project]
+name = "rq-rediscron"
+version = "0.1.0"
+description = "Redis-backed runtime-editable cron scheduler for RQ"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = []
+dependencies = [
+    "redis>=5",
+    "rq>=2.8",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-org/rq-rediscron"
+Repository = "https://github.com/your-org/rq-rediscron"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rediscron*"]
+# this will keep those folders out of bdist but "tests" will be present in
+# sdist
+exclude = ["docs*", "tests*", "foo_*"]
+namespaces = false
