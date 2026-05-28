@@ -1,6 +1,6 @@
 [project]
 name = "rq-rediscron"
-version = "0.1.1"
+version = "0.1.2"
 description = "Redis-backed runtime-editable cron scheduler for RQ"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -12,8 +12,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-org/rq-rediscron"
-Repository = "https://github.com/your-org/rq-rediscron"
+Homepage = "https://github.com/gams/rq-rediscron"
+Repository = "https://github.com/gams/rq-rediscron"
 
 [build-system]
 requires = ["setuptools>=42", "wheel"]
